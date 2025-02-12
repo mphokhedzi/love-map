@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Map ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Style for the play button */
+        #play-music {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff4d6d;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #play-music:hover {
+            background-color: #e63950;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Play Music Button (Now on top & visible) -->
+    <button id="play-music">🎵 Play Music</button>
+
+    <h1>💖 Our Love Map 💖</h1>
+    <p>Each place on this map holds a special memory in our love story!</p>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Background Music (Will autoplay after interaction) -->
+    <audio id="bg-music" loop>
+        <source src="drive-me-crazy.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Include Leaflet.js for the interactive map -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        document.getElementById("play-music").addEventListener("click", function() {
+            const audio = document.getElementById("bg-music");
+
+            // Attempt to play music
+            audio.play().then(() => {
+                this.style.display = "none"; // Hide button after playing
+            }).catch(error => {
+                console.error("Error playing audio:", error);
+                alert("Autoplay is blocked. Please allow autoplay in your browser settings.");
+            });
+        });
+
+        // Allow play on any user interaction (backup for mobile users)
+        document.body.addEventListener("click", function() {
+            const audio = document.getElementById("bg-music");
+            if (audio.paused) {
+                audio.play().catch(error => console.log("Autoplay blocked:", error));
+            }
+        }, { once: true }); // Ensures it only triggers once
+    </script>
+
+</body>
+</html>
